@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Zap, Menu, X, ArrowRight, PhoneCall } from "lucide-react";
+import { Zap, Menu, X, ArrowRight, PhoneCall, Moon, Sun } from "lucide-react";
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  theme: "light" | "dark";
+  setTheme: (theme: "light" | "dark") => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ theme, setTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -27,6 +32,11 @@ export const Navbar: React.FC = () => {
     { name: "Stats", href: "#stats" },
     { name: "Careers", href: "#careers" }
   ];
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+  };
 
   return (
     <>
@@ -74,7 +84,7 @@ export const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* Get a Quote CTA & Mobile Menu Toggle */}
+          {/* Get a Quote CTA & Theme Toggle & Mobile Menu Toggle */}
           <div className="flex items-center gap-4">
             <a 
               href="#contact"
@@ -87,6 +97,18 @@ export const Navbar: React.FC = () => {
                 GET A QUOTE <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </span>
             </a>
+
+            <button
+              onClick={toggleTheme}
+              className="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl border border-neutral-800 hover:border-accent-amber/50 hover:bg-accent-amber/10 text-text-primary transition-all duration-300"
+              aria-label="Toggle theme"
+            >
+              {theme === "light" ? (
+                <Moon className="w-5 h-5" />
+              ) : (
+                <Sun className="w-5 h-5" />
+              )}
+            </button>
 
             <button
               onClick={() => setIsOpen(!isOpen)}
